@@ -1,0 +1,89 @@
+/* Общие настройки фона и шрифтов */
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+}
+
+/* Заголовок */
+h1 {
+    text-align: center;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+/* Список задач */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Карточка задачи (li) */
+li {
+    background: #ffffff;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+    transition: transform 0.2s ease;
+}
+
+li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+       /* Вместо жесткого цвета ставим color: inherit там, где хотим, чтобы цвет менялся */
+   li > p:first-child {
+       font-size: 1.1rem;
+       font-weight: 600;
+       margin: 0 0 12px 0;
+       color: inherit; /* Теперь будет браться из style в li */
+   }
+
+li > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: inherit; /* И тут тоже */
+    margin-bottom: 12px;
+    opacity: 0.9;   /* Можно добавить прозрачность, чтобы текст был чуть мягче основного */
+}
+
+
+/* Стилизация чекбокса */
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #007bff; /* Красивый синий цвет */
+    cursor: pointer;
+}
+
+/* Последний абзац (Дата создания) */
+li > p:last-child {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid #f1f1f1;
+    font-size: 0.85rem;
+    color: #b2bec3;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Текст "Дата создания задачи:" */
+li > p:last-child span {
+    font-weight: 500;
+    color: #a0a0a0;
+}

@@ -1,8 +1,6 @@
 import './App.css'
 import {useState} from "react";
 
-// const tasks = null;
-
 const tasks = [
     {
         id: 1,

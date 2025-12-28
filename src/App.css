@@ -27,6 +27,17 @@ ul {
     max-width: 450px;
 }
 
+button {
+    display: block;      /* Делаем блочным, чтобы работал margin auto */
+    margin: 20px auto;   /* Центрируем: 20px сверху/снизу, auto по бокам */
+    padding: 10px 30px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
 /* Карточка задачи (li) */
 li {
     background: #ffffff;
@@ -34,14 +45,13 @@ li {
     margin-bottom: 15px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eee;
     transition: transform 0.2s ease;
 }
 
-li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
+/*li:hover {*/
+/*    transform: translateY(-3px);*/
+/*    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);*/
+/*}*/
 
 
        /* Вместо жесткого цвета ставим color: inherit там, где хотим, чтобы цвет менялся */

@@ -1,4 +1,5 @@
 import './App.css'
+import {useState} from "react";
 
 // const tasks = null;
 
@@ -42,6 +43,8 @@ const tasks = [
 
 export function App() {
 
+    const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
+
     if (tasks === null) {
         return (
             <div>
@@ -50,7 +53,6 @@ export function App() {
             </div>
         )
     }
-
     if (tasks.length === 0) {
         return (
             <div>
@@ -60,63 +62,47 @@ export function App() {
         )
     }
 
-    const getTaskStyle = (priority) => {
-        if (priority === 4) {
-            return {
-                backgroundColor: "#ffe3e3",
-                color: "black",
-                borderColor: '#ffc1c1',
-            }
-        } else if (priority === 3) {
-            return {
-                backgroundColor: '#fff9db', // Пастельный желтый
-                color: '#856404',           // Темно-охристый для текста
-                borderColor: '#ffe066'
-            }
-        } else if (priority === 2){
-            return {
-                backgroundColor: '#e3faf3', // Мятный / Светло-зеленый
-                color: '#0c8569',           // Изумрудный для текста
-                borderColor: '#b2f2bb'
-            }
-        } else if (priority === 1){
-            return {
-                backgroundColor: '#ffffff',
-                color: '#2d3436',
-                borderColor: '#eee'
-            }
-        } else {
-            return {
-                backgroundColor: "black",
-                color: "white"
-
-            }
-        }
+    const getTaskStyle = (priority: number) => {
+        if (priority === 4) return {backgroundColor: "#ffe3e3", color: "black"};
+        if (priority === 3) return {backgroundColor: '#fff9db', color: '#856404'};
+        if (priority === 2) return {backgroundColor: '#e3faf3', color: '#0c8569'};
+        if (priority === 1) return {backgroundColor: '#ffffff', color: '#2d4436'};
+        return {backgroundColor: '#e4d333', color: "white"};
     }
 
     return (
         <>
             <h1>Task list:</h1>
+            <button onClick={() => {setSelectedTaskId(null)}}>Сбросить выделение</button>
             <ul>
-                {
-                    tasks.map((task) =>
-                        <li key={task.id} style={getTaskStyle(task.priority)}>
-                            <div>
-                                <p>Заголовок:</p>
-                                <p style={{textDecorationLine: task.isDone ? "line-through" : "none"}}>
-                                    {task.title}
-                                </p>
-                            </div>
-                            <div>
-                                <p>Статус:</p>
-                                <input type={"checkbox"} checked={task.isDone}/>
-                            </div>
-                            <div>
-                                <span>Дата создания задачи:</span>
-                                <p>{task.addedAt}</p>
-                            </div>
-                        </li>
-                    )}
+                {tasks.map((task) =>
+                    <li
+                        key={task.id}
+                        style={{
+                            ...getTaskStyle(task.priority),
+                            border: task.id === selectedTaskId ? "3px solid black" : "none",
+                            cursor: "pointer"
+                        }}
+                        onClick={() => {
+                            setSelectedTaskId(task.id)
+                        }}
+                    >
+                        <div>
+                            <p>Заголовок:</p>
+                            <p style={{textDecorationLine: task.isDone ? "line-through" : "none"}}>
+                                {task.title}
+                            </p>
+                        </div>
+                        <div>
+                            <p>Статус:</p>
+                            <input type={"checkbox"} checked={task.isDone}/>
+                        </div>
+                        <div>
+                            <span>Дата создания задачи:</span>
+                            <p>{task.addedAt}</p>
+                        </div>
+                    </li>
+                )}
             </ul>
         </>
     )

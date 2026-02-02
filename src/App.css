@@ -9,6 +9,30 @@ body {
     justify-content: center;
 }
 
+
+.main-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.left-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-side {
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    flex: 2;
+    position: sticky;
+    top: 20px; /* Расстояние от верхнего края экрана при скролле */
+}
+
 /* Заголовок */
 h1 {
     text-align: center;
@@ -17,6 +41,16 @@ h1 {
     margin-bottom: 30px;
     text-transform: uppercase;
 }
+
+h2 {
+    display: flex;
+    text-align: right;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
 
 /* Список задач */
 ul {
@@ -28,8 +62,8 @@ ul {
 }
 
 button {
-    display: block;      /* Делаем блочным, чтобы работал margin auto */
-    margin: 20px auto;   /* Центрируем: 20px сверху/снизу, auto по бокам */
+    display: block; /* Делаем блочным, чтобы работал margin auto */
+    margin: 20px auto; /* Центрируем: 20px сверху/снизу, auto по бокам */
     padding: 10px 30px;
     background: black;
     color: white;
@@ -40,6 +74,9 @@ button {
 
 /* Карточка задачи (li) */
 li {
+    display: flex;
+    flex-direction: column;
+    min-width: 20vw;
     background: #ffffff;
     padding: 20px;
     margin-bottom: 15px;
@@ -54,13 +91,13 @@ li {
 /*}*/
 
 
-       /* Вместо жесткого цвета ставим color: inherit там, где хотим, чтобы цвет менялся */
-   li > p:first-child {
-       font-size: 1.1rem;
-       font-weight: 600;
-       margin: 0 0 12px 0;
-       color: inherit; /* Теперь будет браться из style в li */
-   }
+/* Вместо жесткого цвета ставим color: inherit там, где хотим, чтобы цвет менялся */
+li > p:first-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: inherit; /* Теперь будет браться из style в li */
+}
 
 li > div {
     display: flex;
@@ -69,7 +106,7 @@ li > div {
     font-size: 0.9rem;
     color: inherit; /* И тут тоже */
     margin-bottom: 12px;
-    opacity: 0.9;   /* Можно добавить прозрачность, чтобы текст был чуть мягче основного */
+    opacity: 0.9; /* Можно добавить прозрачность, чтобы текст был чуть мягче основного */
 }
 
 

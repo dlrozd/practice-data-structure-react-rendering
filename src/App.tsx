@@ -1,5 +1,5 @@
 import './App.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const tasks = [
     {
@@ -43,6 +43,23 @@ export function App() {
 
     const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
 
+    const [selectedTask, setSelectedTask] = useState(null)
+
+    const [boardId, setBoardId] = useState("");
+
+    useEffect(() => {
+        fetch("https://trelly.it-incubator.app/api/1.0/boards/tasks", {
+            headers: {"api-key": "7fddcc08-7109-4369-88ea-5037c0b497e3"}
+        })
+            .then(res => res.json())
+            .then(json => {
+                // Если доски есть, берем ID первой доски
+                if (json.data && json.data.length > 0) {
+                    setBoardId(json.data[0].id);
+                }
+            });
+    }, []);
+
     if (tasks === null) {
         return (
             <div>
@@ -69,42 +86,79 @@ export function App() {
     }
 
     return (
-        <>
-            <h1>Task list:</h1>
-            <button onClick={() => {setSelectedTaskId(null)}}>Сбросить выделение</button>
-            <ul>
-                {tasks.map((task) =>
-                    <li
-                        key={task.id}
-                        style={{
-                            ...getTaskStyle(task.priority),
-                            border: task.id === selectedTaskId ? "3px solid black" : "none",
-                            cursor: "pointer"
-                        }}
-                        onClick={() => {
-                            setSelectedTaskId(task.id)
-                        }}
-                    >
+        <div className="App">
+            <div className="main-container">
+                <div className="left-side">
+
+                    <h1>Task list:</h1>
+                    <button onClick={() => {
+                        setSelectedTaskId(null)
+                    }}>Сбросить выделение
+                    </button>
+                    <ul>
+                        {tasks.map((task) =>
+                            <li className="task"
+                                key={task.id}
+                                style={{
+                                    ...getTaskStyle(task.priority),
+                                    border: task.id === selectedTaskId ? "3px solid black" : "none",
+                                    cursor: "pointer"
+                                }}
+                                onClick={() => {
+                                    setSelectedTaskId(task.id)
+
+                                    // Если boardId еще не загрузился, запрос не пойдет
+                                    if (!boardId) return;
+
+                                    fetch(`https://trelly.it-incubator.app/api/1.0/boards/${boardId}/tasks/${task.id}`, {
+                                        headers: {"api-key": "7fddcc08-7109-4369-88ea-5037c0b497e3"},
+                                    })
+                                        .then((res) => res.json())
+                                        .then((json) => {
+                                            // Защита от белого экрана: проверяем, что данные пришли
+                                            if (json.data) {
+                                                setSelectedTask(json.data)
+                                            }
+                                        })
+                                        .catch(err => console.error("Ошибка:", err))
+                                }}
+                            >
+                                <div>
+                                    <p>Заголовок:</p>
+                                    <p style={{textDecorationLine: task.isDone ? "line-through" : "none"}}>
+                                        {task.title}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p>Статус:</p>
+                                    <input type={"checkbox"} checked={task.isDone}/>
+                                </div>
+                                <div>
+                                    <span>Дата создания задачи:</span>
+                                    <p>{task.addedAt}</p>
+                                </div>
+                            </li>
+                        )}
+                    </ul>
+                </div>
+
+                <div className="right-side">
+                    <h2>More:</h2>
+                    {selectedTask === null ? (
+                        "Task is not selected"
+                    ) : (
                         <div>
-                            <p>Заголовок:</p>
-                            <p style={{textDecorationLine: task.isDone ? "line-through" : "none"}}>
-                                {task.title}
-                            </p>
+                            <h3>{selectedTask.attributes.title}</h3>
+                            <h4>{selectedTask.attributes.boardTitle}</h4>
+                            <h5>{selectedTask.description ?? "no tasks"}</h5>
                         </div>
-                        <div>
-                            <p>Статус:</p>
-                            <input type={"checkbox"} checked={task.isDone}/>
-                        </div>
-                        <div>
-                            <span>Дата создания задачи:</span>
-                            <p>{task.addedAt}</p>
-                        </div>
-                    </li>
-                )}
-            </ul>
-        </>
+                    )}
+                </div>
+
+            </div>
+
+        </div>
     )
 }
-
 
 export default App
